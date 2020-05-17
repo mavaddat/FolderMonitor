@@ -11,10 +11,10 @@ Use this dialog to add new copy task, as you see you have a lot of option, to gi
 
 <img src=/docs/editTask.PNG />
 
-# Access Cradentials
+# Access Credentials
 You have the ability to provide the username and password for every protected directory.
 
-<img src=/docs/Path_cradentials.PNG />
+<img src=/docs/Path_credentials.PNG />
 
 # Run as Windows Service
 You can manage the foldermonitor service, so you don't worry about login to windows, just start your computer and all your copy tasks will work.
