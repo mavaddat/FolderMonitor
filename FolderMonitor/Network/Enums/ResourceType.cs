@@ -21,35 +21,35 @@
 
 namespace FolderMonitor.Network
 {
-   internal static partial class NativeMethods
-   {
-      /// <summary>NETRESOURCE structure.
-      /// <para>ResourceType: The type of resource.</para>
-      /// <remarks>
-      /// <para>If a network provider cannot distinguish between</para>
-      /// <para>print and disk resources, it can enumerate all resources.</para>
-      /// </remarks>
-      /// </summary>
-      internal enum ResourceType
-      {
-         /// <summary>RESOURCETYPE_ANY
-         /// <para>ResourceType: All resources.</para>
-         /// <remarks>
-         /// <para>If a network provider cannot distinguish between print and disk resources, it can enumerate all resources.</para>
-         /// <para>This value cannot be combined with <see cref="Disk"/> or <see cref="ResourceType.Print"/>.</para>
-         /// </remarks>
-         /// </summary>
-         Any = 0,
+    internal static partial class NativeMethods
+    {
+        /// <summary>NETRESOURCE structure.
+        /// <para>ResourceType: The type of resource.</para>
+        /// <remarks>
+        /// <para>If a network provider cannot distinguish between</para>
+        /// <para>print and disk resources, it can enumerate all resources.</para>
+        /// </remarks>
+        /// </summary>
+        internal enum ResourceType
+        {
+            /// <summary>RESOURCETYPE_ANY
+            /// <para>ResourceType: All resources.</para>
+            /// <remarks>
+            /// <para>If a network provider cannot distinguish between print and disk resources, it can enumerate all resources.</para>
+            /// <para>This value cannot be combined with <see cref="Disk"/> or <see cref="ResourceType.Print"/>.</para>
+            /// </remarks>
+            /// </summary>
+            Any = 0,
 
-         /// <summary>RESOURCETYPE_DISK
-         /// <para>All disk resources.</para>
-         /// </summary>
-         Disk = 1,
+            /// <summary>RESOURCETYPE_DISK
+            /// <para>All disk resources.</para>
+            /// </summary>
+            Disk = 1,
 
-         /// <summary>RESOURCETYPE_PRINT
-         /// <para>All print resources.</para>
-         /// </summary>
-         Print = 2
-      }
-   }
+            /// <summary>RESOURCETYPE_PRINT
+            /// <para>All print resources.</para>
+            /// </summary>
+            Print = 2
+        }
+    }
 }

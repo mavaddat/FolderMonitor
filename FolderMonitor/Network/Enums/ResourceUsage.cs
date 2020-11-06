@@ -23,50 +23,50 @@ using System;
 
 namespace FolderMonitor.Network
 {
-   internal static partial class NativeMethods
-   {
-      /// <summary>NETRESOURCE structure.
-      ///   <para>ResourceUsage: A set of bit flags describing how the resource can be used.</para>
-      /// </summary>
-      /// <remarks>Note that this member can be specified only if the <see cref="ResourceScope"/> member is equal to <see cref="ResourceScope.GlobalNet"/>.</remarks>
-      [Flags]
-      internal enum ResourceUsage
-      {
-         /// <summary>RESOURCEUSAGE_CONNECTABLE
-         /// <para>The resource is a connectable resource.</para>
-         /// <para>The name pointed to by the lpRemoteName member can be passed to the WNetAddConnection function to make a network connection.</para>
-         /// </summary>
-         Connectable = 1,
+    internal static partial class NativeMethods
+    {
+        /// <summary>NETRESOURCE structure.
+        ///   <para>ResourceUsage: A set of bit flags describing how the resource can be used.</para>
+        /// </summary>
+        /// <remarks>Note that this member can be specified only if the <see cref="ResourceScope"/> member is equal to <see cref="ResourceScope.GlobalNet"/>.</remarks>
+        [Flags]
+        internal enum ResourceUsage
+        {
+            /// <summary>RESOURCEUSAGE_CONNECTABLE
+            /// <para>The resource is a connectable resource.</para>
+            /// <para>The name pointed to by the lpRemoteName member can be passed to the WNetAddConnection function to make a network connection.</para>
+            /// </summary>
+            Connectable = 1,
 
-         /// <summary>RESOURCEUSAGE_CONTAINER
-         /// <para>The resource is a container resource.</para>
-         /// <para>The name pointed to by the lpRemoteName member can be passed to the WNetAddConnection function to make a network connection.</para>
-         /// </summary>
-         Container = 2,
+            /// <summary>RESOURCEUSAGE_CONTAINER
+            /// <para>The resource is a container resource.</para>
+            /// <para>The name pointed to by the lpRemoteName member can be passed to the WNetAddConnection function to make a network connection.</para>
+            /// </summary>
+            Container = 2,
 
-         /// <summary>RESOURCEUSAGE_NOLOCALDEVICE
-         /// <para>The resource is not a local device.</para>
-         /// </summary>
-         NoLocalDevice = 4,
+            /// <summary>RESOURCEUSAGE_NOLOCALDEVICE
+            /// <para>The resource is not a local device.</para>
+            /// </summary>
+            NoLocalDevice = 4,
 
-         /// <summary>RESOURCEUSAGE_SIBLING
-         /// <para>The resource is a sibling.</para>
-         /// <para>This value is not used by Windows.</para>
-         /// </summary>
-         Sibling = 8,
+            /// <summary>RESOURCEUSAGE_SIBLING
+            /// <para>The resource is a sibling.</para>
+            /// <para>This value is not used by Windows.</para>
+            /// </summary>
+            Sibling = 8,
 
-         /// <summary>RESOURCEUSAGE_ATTACHED
-         /// <para>The resource must be attached.</para>
-         /// <para>This value specifies that a function to enumerate this resource should fail</para>
-         /// <para>if the caller is not authenticated, even if the network permits enumeration without authentication.</para>
-         /// </summary>
-         Attached = 16,
+            /// <summary>RESOURCEUSAGE_ATTACHED
+            /// <para>The resource must be attached.</para>
+            /// <para>This value specifies that a function to enumerate this resource should fail</para>
+            /// <para>if the caller is not authenticated, even if the network permits enumeration without authentication.</para>
+            /// </summary>
+            Attached = 16,
 
 
-         /// <summary>RESOURCEUSAGE_ALL
-         /// <para>Setting this value is equivalent to setting: <see cref="ResourceUsage.Connectable"/>, <see cref="ResourceUsage.Container"/>, and <see cref="ResourceUsage.Attached"/>.</para>
-         /// </summary>
-         All = (Connectable | Container | Attached)
-      }
-   }
+            /// <summary>RESOURCEUSAGE_ALL
+            /// <para>Setting this value is equivalent to setting: <see cref="ResourceUsage.Connectable"/>, <see cref="ResourceUsage.Container"/>, and <see cref="ResourceUsage.Attached"/>.</para>
+            /// </summary>
+            All = (Connectable | Container | Attached)
+        }
+    }
 }

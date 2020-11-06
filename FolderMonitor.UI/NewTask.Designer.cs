@@ -361,7 +361,7 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(86, 17);
             this.checkBox1.TabIndex = 25;
-            this.checkBox1.Text = "Don\'t validat";
+            this.checkBox1.Text = "Don\'t validate";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // tabControl1

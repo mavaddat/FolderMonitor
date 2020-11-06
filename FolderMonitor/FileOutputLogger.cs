@@ -8,15 +8,15 @@ namespace FolderMonitor
     public class FileOutputLogger : ILogger
     {
         public string FileOutputPath { get; set; }
-        public void LogWrite(string logMessage, logType logType= logType.information  )
+        public void LogWrite(string logMessage, logType logType = logType.information)
         {
 
             FileOutputPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var logFile = Path.Combine(FileOutputPath, ServiceConfig.FolderMonitorLogFilename );
+            var logFile = Path.Combine(FileOutputPath, ServiceConfig.FolderMonitorLogFilename);
             try
             {
                 if (!File.Exists(logFile))
-                    File.CreateText(logFile).Close ();
+                    File.CreateText(logFile).Close();
                 using (StreamWriter w = File.AppendText(logFile))
                 {
                     Log(logMessage, w, logType);
@@ -33,16 +33,16 @@ namespace FolderMonitor
             {
                 if (LogLevel == logType.All || LogLevel == logtype)
                 {
-                    var lognameType = Enum.GetName(typeof( logType), logtype);
-                    txtWriter.Write(string.Format("\r\n{0} Entry : ",lognameType));
+                    var lognameType = Enum.GetName(typeof(logType), logtype);
+                    txtWriter.Write(string.Format("\r\n{0} Entry : ", lognameType));
                     txtWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
                         DateTime.Now.ToLongDateString());
-                    txtWriter.WriteLine("  {0}: ", logMessage.Replace ("\n\r",Environment.NewLine ));
+                    txtWriter.WriteLine("  {0}: ", logMessage.Replace("\n\r", Environment.NewLine));
                     txtWriter.WriteLine("-------------------------------");
                 }
             }
 #pragma warning disable CS0168 // The variable 'ex' is declared but never used
-            catch (Exception ex)
+            catch (Exception)
 #pragma warning restore CS0168 // The variable 'ex' is declared but never used
             {
             }
@@ -56,7 +56,7 @@ namespace FolderMonitor
         /// <param name="path">Path to the destination file, that was changed</param>
         public void OnSyncChanged(object source, string path)
         {
-            
+
             LogWrite("Changed: " + path);
         }
 
@@ -86,14 +86,14 @@ namespace FolderMonitor
         /// <param name="newpath">New Path to the destination file, that was changed</param>
         public void OnSyncRenamed(object source, string oldpath, string newpath)
         {
-            LogWrite("Renamed From: " + oldpath +Environment.NewLine + "        To: " + newpath);
+            LogWrite("Renamed From: " + oldpath + Environment.NewLine + "        To: " + newpath);
         }
 
 
 
         public void OnErrorOccure(object source, Exception exception)
         {
-            LogWrite("Exception " + exception.Message, logType.Error );
+            LogWrite("Exception " + exception.Message, logType.Error);
         }
     }
 

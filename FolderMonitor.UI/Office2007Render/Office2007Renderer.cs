@@ -11,11 +11,10 @@
 /*  Contact: phil.wright@componentfactory.com                       */
 /********************************************************************/
 
+using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Collections.Generic;
 
 namespace Office2007Renderer
 {
@@ -63,96 +62,98 @@ namespace Office2007Renderer
         #endregion
 
         #region Static Metrics
-        private static int _gripOffset = 1;
-        private static int _gripSquare = 2;
-        private static int _gripSize = 3;
-        private static int _gripMove = 4;
-        private static int _gripLines = 3;
-        private static int _checkInset = 1;
-        private static int _marginInset = 2;
-        private static int _separatorInset = 31;
-        private static float _cutToolItemMenu = 1.0f;
-        private static float _cutContextMenu = 0f;
-        private static float _cutMenuItemBack = 1.2f;
-        private static float _contextCheckTickThickness = 1.6f;
-        private static Blend _statusStripBlend;
+        private static readonly int _gripOffset = 1;
+        private static readonly int _gripSquare = 2;
+        private static readonly int _gripSize = 3;
+        private static readonly int _gripMove = 4;
+        private static readonly int _gripLines = 3;
+        private static readonly int _checkInset = 1;
+        private static readonly int _marginInset = 2;
+        private static readonly int _separatorInset = 31;
+        private static readonly float _cutToolItemMenu = 1.0f;
+        private static readonly float _cutContextMenu = 0f;
+        private static readonly float _cutMenuItemBack = 1.2f;
+        private static readonly float _contextCheckTickThickness = 1.6f;
+        private static readonly Blend _statusStripBlend;
         #endregion
 
         #region Static Colors
-        private static Color _c1 = Color.FromArgb(167, 167, 167);
-        private static Color _c2 = Color.FromArgb(21, 66, 139);
-        private static Color _c3 = Color.FromArgb(76, 83, 92);
-        private static Color _c4 = Color.FromArgb(250, 250, 250);
-        private static Color _c5 = Color.FromArgb(248, 248, 248);
-        private static Color _c6 = Color.FromArgb(243, 243, 243);
-        private static Color _r1 = Color.FromArgb(255, 255, 251);
-        private static Color _r2 = Color.FromArgb(255, 249, 227);
-        private static Color _r3 = Color.FromArgb(255, 242, 201);
-        private static Color _r4 = Color.FromArgb(255, 248, 181);
-        private static Color _r5 = Color.FromArgb(255, 252, 229);
-        private static Color _r6 = Color.FromArgb(255, 235, 166);
-        private static Color _r7 = Color.FromArgb(255, 213, 103);
-        private static Color _r8 = Color.FromArgb(255, 228, 145);
-        private static Color _r9 = Color.FromArgb(160, 188, 228);
-        private static Color _rA = Color.FromArgb(121, 153, 194);
-        private static Color _rB = Color.FromArgb(182, 190, 192);
-        private static Color _rC = Color.FromArgb(155, 163, 167);
-        private static Color _rD = Color.FromArgb(233, 168, 97);
-        private static Color _rE = Color.FromArgb(247, 164, 39);
-        private static Color _rF = Color.FromArgb(246, 156, 24);
-        private static Color _rG = Color.FromArgb(253, 173, 17);
-        private static Color _rH = Color.FromArgb(254, 185, 108);
-        private static Color _rI = Color.FromArgb(253, 164, 97);
-        private static Color _rJ = Color.FromArgb(252, 143, 61);
-        private static Color _rK = Color.FromArgb(255, 208, 134);
-        private static Color _rL = Color.FromArgb(249, 192, 103);
-        private static Color _rM = Color.FromArgb(250, 195, 93);
-        private static Color _rN = Color.FromArgb(248, 190, 81);
-        private static Color _rO = Color.FromArgb(255, 208, 49);
-        private static Color _rP = Color.FromArgb(254, 214, 168);
-        private static Color _rQ = Color.FromArgb(252, 180, 100);
-        private static Color _rR = Color.FromArgb(252, 161, 54);
-        private static Color _rS = Color.FromArgb(254, 238, 170);
-        private static Color _rT = Color.FromArgb(249, 202, 113);
-        private static Color _rU = Color.FromArgb(250, 205, 103);
-        private static Color _rV = Color.FromArgb(248, 200, 91);
-        private static Color _rW = Color.FromArgb(255, 218, 59);
-        private static Color _rX = Color.FromArgb(254, 185, 108);
-        private static Color _rY = Color.FromArgb(252, 161, 54);
-        private static Color _rZ = Color.FromArgb(254, 238, 170);
+        private static readonly Color _c1 = Color.FromArgb(167, 167, 167);
+        private static readonly Color _c2 = Color.FromArgb(21, 66, 139);
+        private static readonly Color _c3 = Color.FromArgb(76, 83, 92);
+        private static readonly Color _c4 = Color.FromArgb(250, 250, 250);
+        private static readonly Color _c5 = Color.FromArgb(248, 248, 248);
+        private static readonly Color _c6 = Color.FromArgb(243, 243, 243);
+        private static readonly Color _r1 = Color.FromArgb(255, 255, 251);
+        private static readonly Color _r2 = Color.FromArgb(255, 249, 227);
+        private static readonly Color _r3 = Color.FromArgb(255, 242, 201);
+        private static readonly Color _r4 = Color.FromArgb(255, 248, 181);
+        private static readonly Color _r5 = Color.FromArgb(255, 252, 229);
+        private static readonly Color _r6 = Color.FromArgb(255, 235, 166);
+        private static readonly Color _r7 = Color.FromArgb(255, 213, 103);
+        private static readonly Color _r8 = Color.FromArgb(255, 228, 145);
+        private static readonly Color _r9 = Color.FromArgb(160, 188, 228);
+        private static readonly Color _rA = Color.FromArgb(121, 153, 194);
+        private static readonly Color _rB = Color.FromArgb(182, 190, 192);
+        private static readonly Color _rC = Color.FromArgb(155, 163, 167);
+        private static readonly Color _rD = Color.FromArgb(233, 168, 97);
+        private static readonly Color _rE = Color.FromArgb(247, 164, 39);
+        private static readonly Color _rF = Color.FromArgb(246, 156, 24);
+        private static readonly Color _rG = Color.FromArgb(253, 173, 17);
+        private static readonly Color _rH = Color.FromArgb(254, 185, 108);
+        private static readonly Color _rI = Color.FromArgb(253, 164, 97);
+        private static readonly Color _rJ = Color.FromArgb(252, 143, 61);
+        private static readonly Color _rK = Color.FromArgb(255, 208, 134);
+        private static readonly Color _rL = Color.FromArgb(249, 192, 103);
+        private static readonly Color _rM = Color.FromArgb(250, 195, 93);
+        private static readonly Color _rN = Color.FromArgb(248, 190, 81);
+        private static readonly Color _rO = Color.FromArgb(255, 208, 49);
+        private static readonly Color _rP = Color.FromArgb(254, 214, 168);
+        private static readonly Color _rQ = Color.FromArgb(252, 180, 100);
+        private static readonly Color _rR = Color.FromArgb(252, 161, 54);
+        private static readonly Color _rS = Color.FromArgb(254, 238, 170);
+        private static readonly Color _rT = Color.FromArgb(249, 202, 113);
+        private static readonly Color _rU = Color.FromArgb(250, 205, 103);
+        private static readonly Color _rV = Color.FromArgb(248, 200, 91);
+        private static readonly Color _rW = Color.FromArgb(255, 218, 59);
+        private static readonly Color _rX = Color.FromArgb(254, 185, 108);
+        private static readonly Color _rY = Color.FromArgb(252, 161, 54);
+        private static readonly Color _rZ = Color.FromArgb(254, 238, 170);
 
         // Color scheme values
-        private static Color _textDisabled = _c1;
-        private static Color _textMenuStripItem = _c2;
-        private static Color _textStatusStripItem = _c2;
-        private static Color _textContextMenuItem = _c2;
-        private static Color _arrowDisabled = _c1;
-        private static Color _arrowLight = Color.FromArgb(106, 126, 197);
-        private static Color _arrowDark = Color.FromArgb(64, 70, 90);
-        private static Color _separatorMenuLight = Color.FromArgb(245, 245, 245);
-        private static Color _separatorMenuDark = Color.FromArgb(197, 197, 197);
-        private static Color _contextMenuBack = _c4;
-        private static Color _contextCheckBorder = Color.FromArgb(242, 149, 54);
-        private static Color _contextCheckTick = Color.FromArgb(66, 75, 138);
-        private static Color _statusStripBorderDark = Color.FromArgb(86, 125, 176);
-        private static Color _statusStripBorderLight = Color.White;
-        private static Color _gripDark = Color.FromArgb(114, 152, 204);
-        private static Color _gripLight = _c5;
-        private static GradientItemColors _itemContextItemEnabledColors = new GradientItemColors(_r1, _r2, _r3, _r4, _r5, _r6, _r7, _r8, Color.FromArgb(217, 203, 150), Color.FromArgb(192, 167, 118));
-        private static GradientItemColors _itemDisabledColors = new GradientItemColors(_c4, _c6, Color.FromArgb(236, 236, 236), Color.FromArgb(230, 230, 230), _c6, Color.FromArgb(224, 224, 224), Color.FromArgb(200, 200, 200), Color.FromArgb(210, 210, 210), Color.FromArgb(212, 212, 212), Color.FromArgb(195, 195, 195));
-        private static GradientItemColors _itemToolItemSelectedColors = new GradientItemColors(_r1, _r2, _r3, _r4, _r5, _r6, _r7, _r8, _r9, _rA);
-        private static GradientItemColors _itemToolItemPressedColors = new GradientItemColors(_rD, _rE, _rF, _rG, _rH, _rI, _rJ, _rK, _r9, _rA); 
-        private static GradientItemColors _itemToolItemCheckedColors = new GradientItemColors(_rL, _rM, _rN, _rO, _rP, _rQ, _rR, _rS, _r9, _rA);
-        private static GradientItemColors _itemToolItemCheckPressColors = new GradientItemColors(_rT, _rU, _rV, _rW, _rX, _rI, _rY, _rZ, _r9, _rA);
+        private static readonly Color _textDisabled = _c1;
+        private static readonly Color _textMenuStripItem = _c2;
+        private static readonly Color _textStatusStripItem = _c2;
+        private static readonly Color _textContextMenuItem = _c2;
+        private static readonly Color _arrowDisabled = _c1;
+        private static readonly Color _arrowLight = Color.FromArgb(106, 126, 197);
+        private static readonly Color _arrowDark = Color.FromArgb(64, 70, 90);
+        private static readonly Color _separatorMenuLight = Color.FromArgb(245, 245, 245);
+        private static readonly Color _separatorMenuDark = Color.FromArgb(197, 197, 197);
+        private static readonly Color _contextMenuBack = _c4;
+        private static readonly Color _contextCheckBorder = Color.FromArgb(242, 149, 54);
+        private static readonly Color _contextCheckTick = Color.FromArgb(66, 75, 138);
+        private static readonly Color _statusStripBorderDark = Color.FromArgb(86, 125, 176);
+        private static readonly Color _statusStripBorderLight = Color.White;
+        private static readonly Color _gripDark = Color.FromArgb(114, 152, 204);
+        private static readonly Color _gripLight = _c5;
+        private static readonly GradientItemColors _itemContextItemEnabledColors = new GradientItemColors(_r1, _r2, _r3, _r4, _r5, _r6, _r7, _r8, Color.FromArgb(217, 203, 150), Color.FromArgb(192, 167, 118));
+        private static readonly GradientItemColors _itemDisabledColors = new GradientItemColors(_c4, _c6, Color.FromArgb(236, 236, 236), Color.FromArgb(230, 230, 230), _c6, Color.FromArgb(224, 224, 224), Color.FromArgb(200, 200, 200), Color.FromArgb(210, 210, 210), Color.FromArgb(212, 212, 212), Color.FromArgb(195, 195, 195));
+        private static readonly GradientItemColors _itemToolItemSelectedColors = new GradientItemColors(_r1, _r2, _r3, _r4, _r5, _r6, _r7, _r8, _r9, _rA);
+        private static readonly GradientItemColors _itemToolItemPressedColors = new GradientItemColors(_rD, _rE, _rF, _rG, _rH, _rI, _rJ, _rK, _r9, _rA);
+        private static readonly GradientItemColors _itemToolItemCheckedColors = new GradientItemColors(_rL, _rM, _rN, _rO, _rP, _rQ, _rR, _rS, _r9, _rA);
+        private static readonly GradientItemColors _itemToolItemCheckPressColors = new GradientItemColors(_rT, _rU, _rV, _rW, _rX, _rI, _rY, _rZ, _r9, _rA);
         #endregion
 
         #region Identity
         static Office2007Renderer()
         {
             // One time creation of the blend for the status strip gradient brush
-            _statusStripBlend = new Blend();
-            _statusStripBlend.Positions = new float[] { 0.0f, 0.25f, 0.25f, 0.57f, 0.86f, 1.0f };
-            _statusStripBlend.Factors = new float[] { 0.1f, 0.6f, 1.0f, 0.4f, 0.0f, 0.95f };
+            _statusStripBlend = new Blend
+            {
+                Positions = new float[] { 0.0f, 0.25f, 0.25f, 0.57f, 0.86f, 1.0f },
+                Factors = new float[] { 0.1f, 0.6f, 1.0f, 0.4f, 0.0f, 0.95f }
+            };
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace Office2007Renderer
             {
                 // Create a path that is used to fill the arrow
                 using (GraphicsPath arrowPath = CreateArrowPath(e.Item,
-                                                                e.ArrowRectangle, 
+                                                                e.ArrowRectangle,
                                                                 e.Direction))
                 {
                     // Get the rectangle that encloses the arrow and expand slightly
@@ -304,7 +305,7 @@ namespace Office2007Renderer
                                 using (GraphicsPath tickPath = CreateTickPath(checkBox))
                                 {
                                     // Draw the tick with a thickish brush
-                                    using (Pen tickPen = new Pen(_contextCheckTick,_contextCheckTickThickness))
+                                    using (Pen tickPen = new Pen(_contextCheckTick, _contextCheckTickThickness))
                                         e.Graphics.DrawPath(tickPen, tickPath);
                                 }
                                 break;
@@ -376,9 +377,9 @@ namespace Office2007Renderer
                     if (e.Item.Enabled)
                         e.Graphics.DrawImage(e.Image, e.ImageRectangle);
                     else
-                        ControlPaint.DrawImageDisabled(e.Graphics, e.Image, 
-                                                       e.ImageRectangle.X, 
-                                                       e.ImageRectangle.Y, 
+                        ControlPaint.DrawImageDisabled(e.Graphics, e.Image,
+                                                       e.ImageRectangle.X,
+                                                       e.ImageRectangle.Y,
                                                        Color.Transparent);
                 }
             }
@@ -482,9 +483,9 @@ namespace Office2007Renderer
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderStatusStripSizingGrip(ToolStripRenderEventArgs e)
         {
-            using(SolidBrush darkBrush = new SolidBrush(_gripDark),
+            using (SolidBrush darkBrush = new SolidBrush(_gripDark),
                             lightBrush = new SolidBrush(_gripLight))
-             {
+            {
                 // Do we need to invert the drawing edge?
                 bool rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
 
@@ -554,7 +555,7 @@ namespace Office2007Renderer
                 using (Pen lightPen = new Pen(_separatorMenuLight),
                             darkPen = new Pen(_separatorMenuDark))
                 {
-                    DrawSeparator(e.Graphics, e.Vertical, e.Item.Bounds, 
+                    DrawSeparator(e.Graphics, e.Vertical, e.Item.Bounds,
                                   lightPen, darkPen, _separatorInset,
                                   (e.ToolStrip.RightToLeft == RightToLeft.Yes));
                 }
@@ -607,9 +608,9 @@ namespace Office2007Renderer
                 // Cannot paint a zero sized area
                 if ((backRect.Width > 0) && (backRect.Height > 0))
                 {
-                    using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect, 
+                    using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
                                                                                    ColorTable.StatusStripGradientBegin,
-                                                                                   ColorTable.StatusStripGradientEnd, 
+                                                                                   ColorTable.StatusStripGradientEnd,
                                                                                    90f))
                     {
                         backBrush.Blend = _statusStripBlend;
@@ -779,7 +780,7 @@ namespace Office2007Renderer
         }
 
         private void RenderToolDropButtonBackground(Graphics g,
-                                                    ToolStripItem item, 
+                                                    ToolStripItem item,
                                                     ToolStrip toolstrip)
         {
             // We only draw a background if the item is selected or being pressed
@@ -840,8 +841,8 @@ namespace Office2007Renderer
 
         }
 
-        private void DrawGradientToolItem(Graphics g, 
-                                          ToolStripItem item, 
+        private void DrawGradientToolItem(Graphics g,
+                                          ToolStripItem item,
                                           GradientItemColors colors)
         {
             // Perform drawing into the entire background of the item
@@ -849,7 +850,7 @@ namespace Office2007Renderer
         }
 
         private void DrawGradientToolSplitItem(Graphics g,
-                                               ToolStripSplitButton splitButton, 
+                                               ToolStripSplitButton splitButton,
                                                GradientItemColors colorsButton,
                                                GradientItemColors colorsDrop,
                                                GradientItemColors colorsSplit)
@@ -864,10 +865,10 @@ namespace Office2007Renderer
             {
                 // Area that is the normal button starts as everything
                 Rectangle backRectButton = backRect;
-                
+
                 // The X offset to draw the split line
                 int splitOffset;
-                
+
                 // Is the drop button on the right hand side of entire area?
                 if (backRectDrop.X > 0)
                 {
@@ -946,8 +947,8 @@ namespace Office2007Renderer
             DrawGradientItem(g, backRect, colors);
         }
 
-        private void DrawGradientItem(Graphics g, 
-                                      Rectangle backRect, 
+        private void DrawGradientItem(Graphics g,
+                                      Rectangle backRect,
                                       GradientItemColors colors)
         {
             // Cannot paint a zero sized area
@@ -961,9 +962,9 @@ namespace Office2007Renderer
             }
         }
 
-        private void DrawGradientBack(Graphics g, 
+        private void DrawGradientBack(Graphics g,
                                       Rectangle backRect,
-                                      GradientItemColors colors)  
+                                      GradientItemColors colors)
         {
             // Reduce rect draw drawing inside the border
             backRect.Inflate(-1, -1);
@@ -1033,10 +1034,10 @@ namespace Office2007Renderer
             }
         }
 
-        private void DrawGripGlyph(Graphics g, 
-                                   int x, 
-                                   int y, 
-                                   Brush darkBrush, 
+        private void DrawGripGlyph(Graphics g,
+                                   int x,
+                                   int y,
+                                   Brush darkBrush,
                                    Brush lightBrush)
         {
             g.FillRectangle(lightBrush, x + _gripOffset, y + _gripOffset, _gripSquare, _gripSquare);
@@ -1218,7 +1219,7 @@ namespace Office2007Renderer
         }
 
         private GraphicsPath CreateArrowPath(ToolStripItem item,
-                                             Rectangle rect, 
+                                             Rectangle rect,
                                              ArrowDirection direction)
         {
             int x, y;
@@ -1236,7 +1237,7 @@ namespace Office2007Renderer
                 y = rect.Bottom - (rect.Height - 3) / 2;
 
                 // The drop down button is position 1 pixel incorrectly when in RTL
-                if ((item is ToolStripDropDownButton) && 
+                if ((item is ToolStripDropDownButton) &&
                     (item.RightToLeft == RightToLeft.Yes))
                     x++;
             }

@@ -1,11 +1,7 @@
-﻿using FolderMonitor;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 
 
@@ -14,7 +10,7 @@ namespace FolderMonitor
     internal sealed partial class ServiceConfig
     {
         public static string _configFile = "";
-        private static ServiceConfig defaultInstance = (new ServiceConfig());
+        private static readonly ServiceConfig defaultInstance = (new ServiceConfig());
 
         public static ServiceConfig Default
         {
@@ -48,7 +44,7 @@ namespace FolderMonitor
                 if (!string.IsNullOrWhiteSpace(item.To.Password))
                     item.To.Password = item.To.Password.Encrypts();
             }
-            XmlSerializer xs = new XmlSerializer(typeof(List<PathFromAndTo>));
+            var xs = new XmlSerializer(typeof(List<PathFromAndTo>));
             TextWriter tw = new StreamWriter(_configFile);
             xs.Serialize(tw, items);
             tw.Close();
@@ -80,7 +76,7 @@ namespace FolderMonitor
                 return items;
             using (var sr = new FileStream(_configFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                XmlSerializer xs = new XmlSerializer(typeof(List<PathFromAndTo>));
+                var xs = new XmlSerializer(typeof(List<PathFromAndTo>));
                 var xitems = (List<PathFromAndTo>)xs.Deserialize(sr);
 
                 foreach (var item in xitems)
@@ -99,13 +95,13 @@ namespace FolderMonitor
             }
         }
 
-        public PathFromAndTo GetTask(string from_path,string to_path)
+        public PathFromAndTo GetTask(string from_path, string to_path)
         {
 
-          return   GetAllTasks(false ).FirstOrDefault(x => 
-                   from_path.ToLower().Trim().Trim("\\".ToCharArray()) == x.From.Path.ToLower().Trim().Trim("\\".ToCharArray()) &&
-                   x.To .Path.ToLower().Trim().Trim("\\".ToCharArray()) == to_path.ToLower().Trim().Trim("\\".ToCharArray()
-                   ));
+            return GetAllTasks(false).FirstOrDefault(x =>
+                  from_path.ToLower().Trim().Trim("\\".ToCharArray()) == x.From.Path.ToLower().Trim().Trim("\\".ToCharArray()) &&
+                  x.To.Path.ToLower().Trim().Trim("\\".ToCharArray()) == to_path.ToLower().Trim().Trim("\\".ToCharArray()
+                  ));
         }
 
 

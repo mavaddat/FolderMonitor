@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tools;
 
 namespace FolderMonitor.UI
 {
     public partial class NewTask : Form
     {
-        string _AuthorizeRequired = "Authorize Required?";
-        bool _NewTask = true;
+        readonly string _AuthorizeRequired = "Authorize Required?";
+        readonly bool _NewTask = true;
         public NewTask(bool NewOrEditTask)
         {
             _NewTask = NewOrEditTask;
             InitializeComponent();
-            intervalComboBox.SelectedIndex =endon_type.SelectedIndex = 0;
-            MirrorTask = new PathFromAndTo();
-            MirrorTask.RoboCopy_Options = ServiceConfig.RoboCopyOptions;
+            intervalComboBox.SelectedIndex = endon_type.SelectedIndex = 0;
+            MirrorTask = new PathFromAndTo
+            {
+                RoboCopy_Options = ServiceConfig.RoboCopyOptions
+            };
             if (!_NewTask)
                 Text = "Edit Task";
         }
@@ -30,13 +25,15 @@ namespace FolderMonitor.UI
         public PathFromAndTo MirrorTask { get; set; }
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            PathCradentialUI x = new PathCradentialUI();
-            x.Pathcredentials = (PathCredentials)MirrorTask.From .Clone();
+            PathCradentialUI x = new PathCradentialUI
+            {
+                Pathcredentials = (PathCredentials)MirrorTask.From.Clone()
+            };
             x.Pathcredentials.Path = sourceFolderTextBox.Text;
             if (x.ShowDialog() == DialogResult.OK)
             {
-                MirrorTask.From  = x.Pathcredentials;
-                if (MirrorTask.From .IsPathHasUserName)
+                MirrorTask.From = x.Pathcredentials;
+                if (MirrorTask.From.IsPathHasUserName)
                     linkLabel1.Text = MirrorTask.From.UserName;
                 else
                     linkLabel1.Text = _AuthorizeRequired;
@@ -45,8 +42,10 @@ namespace FolderMonitor.UI
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            PathCradentialUI x = new PathCradentialUI();
-            x.Pathcredentials = (PathCredentials)MirrorTask.To.Clone();
+            PathCradentialUI x = new PathCradentialUI
+            {
+                Pathcredentials = (PathCredentials)MirrorTask.To.Clone()
+            };
             x.Pathcredentials.Path = targetFolderTextBox.Text;
             if (x.ShowDialog() == DialogResult.OK)
             {
@@ -60,18 +59,18 @@ namespace FolderMonitor.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if(MirrorTask!=null)
+            if (MirrorTask != null)
             {
-                schedul_enable.Checked = MirrorTask.ScheduleTask==null ?false : MirrorTask.ScheduleTask.IsEnabled;
+                schedul_enable.Checked = MirrorTask.ScheduleTask == null ? false : MirrorTask.ScheduleTask.IsEnabled;
                 if (MirrorTask.ScheduleTask != null)
                 {
-                    intervalComboBox.SelectedIndex =(int) MirrorTask.ScheduleTask.Triggertype;
+                    intervalComboBox.SelectedIndex = (int)MirrorTask.ScheduleTask.Triggertype;
                     Startdate.Value = MirrorTask.ScheduleTask.StartTime;
                     Starttime.Value = MirrorTask.ScheduleTask.StartTime;
 
-                    endon_enabled.Checked = MirrorTask.ScheduleTask.EndTime .HasValue ;
-                  if(MirrorTask.ScheduleTask.EndTime.HasValue)  endon_time.Value = MirrorTask.ScheduleTask.EndTime.Value;
-                    endon_type.SelectedIndex = (int)MirrorTask.ScheduleTask.EndTime_Type ;
+                    endon_enabled.Checked = MirrorTask.ScheduleTask.EndTime.HasValue;
+                    if (MirrorTask.ScheduleTask.EndTime.HasValue) endon_time.Value = MirrorTask.ScheduleTask.EndTime.Value;
+                    endon_type.SelectedIndex = (int)MirrorTask.ScheduleTask.EndTime_Type;
                 }
             }
             if (MirrorTask.From != null)
@@ -81,7 +80,7 @@ namespace FolderMonitor.UI
                     linkLabel1.Text = MirrorTask.From.UserName;
                 else
                     linkLabel1.Text = _AuthorizeRequired;
-              
+
             }
             if (MirrorTask.To != null)
             {
@@ -93,9 +92,9 @@ namespace FolderMonitor.UI
                     linkLabel2.Text = _AuthorizeRequired;
             }
 
-            if (  !string.IsNullOrWhiteSpace(MirrorTask.RoboCopy_Options))            
-                robocopySwitchesTextBox.Text = MirrorTask.RoboCopy_Options;          
-                                                          
+            if (!string.IsNullOrWhiteSpace(MirrorTask.RoboCopy_Options))
+                robocopySwitchesTextBox.Text = MirrorTask.RoboCopy_Options;
+
             robocopySwitchesCheckBox.Checked = !string.IsNullOrWhiteSpace(robocopySwitchesTextBox.Text);
             if (MirrorTask != null && !string.IsNullOrEmpty(MirrorTask.ExtendedAttributes))
             {
@@ -129,7 +128,7 @@ namespace FolderMonitor.UI
             {
 
 
-                if (!MirrorTask.From.CheckAccessiblity ())
+                if (!MirrorTask.From.CheckAccessiblity())
                 {
                     _lasterror = "The source folder does not exist or inaccessible.";
                     errorProvider1.SetError(sourceFolderTextBox, _lasterror);
@@ -149,7 +148,7 @@ namespace FolderMonitor.UI
 
             try
             {
-                if (!MirrorTask.To.CheckAccessiblity ())
+                if (!MirrorTask.To.CheckAccessiblity())
                 {
                     // in target case we don't care if folder exist or not, we only capture if user can access to the path or not.
                     return true;
@@ -175,7 +174,7 @@ namespace FolderMonitor.UI
 
             try
             {
-                MirrorTask. From.GetFileSystemEntries();//just check if source Path is accessiable and can read its entries or not.
+                MirrorTask.From.GetFileSystemEntries();//just check if source Path is accessiable and can read its entries or not.
 
             }
             catch (Exception er)
@@ -191,7 +190,7 @@ namespace FolderMonitor.UI
 
             try
             {
-                MirrorTask. To.GetFileSystemEntries();//just check if source Path is accessiable and can read its entries or not.
+                MirrorTask.To.GetFileSystemEntries();//just check if source Path is accessiable and can read its entries or not.
 
             }
             catch (Exception er)
@@ -214,17 +213,19 @@ namespace FolderMonitor.UI
                 cango = Test();
             if (cango)
             {
-                MirrorTask. From.Path = sourceFolderTextBox.Text;
-                MirrorTask. To.Path = targetFolderTextBox.Text;
+                MirrorTask.From.Path = sourceFolderTextBox.Text;
+                MirrorTask.To.Path = targetFolderTextBox.Text;
                 if (schedul_enable.Checked)
                 {
-                    MirrorTask.ScheduleTask = new ScheduleTime();
-                    MirrorTask.ScheduleTask.IsEnabled = true;
-                    MirrorTask.ScheduleTask.Triggertype = (TriggerType)intervalComboBox.SelectedIndex;
-                    MirrorTask.ScheduleTask.StartTime = new DateTime(Startdate.Value.Year, Startdate.Value.Month, Startdate.Value.Day, Starttime.Value.Hour, Starttime.Value.Minute, Starttime.Value.Second);
+                    MirrorTask.ScheduleTask = new ScheduleTime
+                    {
+                        IsEnabled = true,
+                        Triggertype = (TriggerType)intervalComboBox.SelectedIndex,
+                        StartTime = new DateTime(Startdate.Value.Year, Startdate.Value.Month, Startdate.Value.Day, Starttime.Value.Hour, Starttime.Value.Minute, Starttime.Value.Second)
+                    };
                     if (endon_enabled.Checked)
                     {
-                        MirrorTask.ScheduleTask.EndTime = endon_time.Value ;
+                        MirrorTask.ScheduleTask.EndTime = endon_time.Value;
                         MirrorTask.ScheduleTask.EndTime_Type = (EndOnType)endon_type.SelectedIndex;
 
                     }
@@ -233,7 +234,7 @@ namespace FolderMonitor.UI
                 }
                 else
                     MirrorTask.ScheduleTask = null;
-              
+
 
                 if (robocopySwitchesCheckBox.Checked)
                     MirrorTask.RoboCopy_Options = robocopySwitchesTextBox.Text;
@@ -287,23 +288,23 @@ namespace FolderMonitor.UI
 
         private void sourceFolderTextBox_TextChanged(object sender, EventArgs e)
         {
-            MirrorTask. From.Path = sourceFolderTextBox.Text;
-            button4.Enabled =Directory.Exists ( sourceFolderTextBox.Text);
+            MirrorTask.From.Path = sourceFolderTextBox.Text;
+            button4.Enabled = Directory.Exists(sourceFolderTextBox.Text);
         }
 
         private void targetFolderTextBox_TextChanged(object sender, EventArgs e)
         {
-            MirrorTask. To.Path = targetFolderTextBox.Text;
+            MirrorTask.To.Path = targetFolderTextBox.Text;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            ExcludedItemsDialog d = new ExcludedItemsDialog(new PathFromAndTo(MirrorTask.From , MirrorTask. To));
+            ExcludedItemsDialog d = new ExcludedItemsDialog(new PathFromAndTo(MirrorTask.From, MirrorTask.To));
 
             if (d.ShowDialog() == DialogResult.OK)
             {
-                MirrorTask. From.ExcludedFiles = d.ExcludedFiles;
-                MirrorTask. From.ExcludedFolders = d.ExcludedFolders;
+                MirrorTask.From.ExcludedFiles = d.ExcludedFiles;
+                MirrorTask.From.ExcludedFolders = d.ExcludedFolders;
             }
         }
 
@@ -319,7 +320,7 @@ namespace FolderMonitor.UI
 
         private void NewTask_Shown(object sender, EventArgs e)
         {
-            if(!MirrorTask.IsEnabled )
+            if (!MirrorTask.IsEnabled)
             {
                 Text += " (Inactive Task)";
                 BackColor = Color.LightGray;
@@ -328,7 +329,7 @@ namespace FolderMonitor.UI
 
         private void schedul_enable_CheckedChanged(object sender, EventArgs e)
         {
-            panel1.Enabled = schedul_enable.Checked ;
+            panel1.Enabled = schedul_enable.Checked;
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)

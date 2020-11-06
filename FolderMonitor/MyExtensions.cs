@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security;
 using System.Text;
 
@@ -8,7 +6,7 @@ namespace FolderMonitor
 {
     public static class MyExtensions
     {
-       public static string  UncPrefix="\\\\";
+        public static string UncPrefix = "\\\\";
         /// <summary>
         /// Returns a Secure string from the source string
         /// </summary>
@@ -30,7 +28,7 @@ namespace FolderMonitor
         /// <returns>A text string where the trailing <see cref="DirectorySeparatorChar"/> character has been removed. The function returns <see langword="null"/> when <paramref name="path"/> is <see langword="null"/>.</returns>
         /// <param name="path">A text string from which the trailing <see cref="DirectorySeparatorChar"/> is to be removed, when present.</param>
         [SecurityCritical]
-        public static string RemoveTrailingDirectorySeparator(this  string path)
+        public static string RemoveTrailingDirectorySeparator(this string path)
         {
             return path == null ? null : path.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
         }
@@ -145,7 +143,7 @@ namespace FolderMonitor
 
         public static DateTime StartOfMinute(this DateTime date)
         {
-            
+
             return date.Floor(TimeSpan.FromMinutes(1));
         }
         public static DateTime Floor(this DateTime date, TimeSpan interval)

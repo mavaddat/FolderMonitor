@@ -39,17 +39,17 @@ namespace FolderMonitor.UI
             excludedFoldersControl.BaseFolder = sourceFolder;
             ExcludedFiles = new List<string>(task.From.ExcludedFiles);
             ExcludedFolders = new List<string>(task.From.ExcludedFolders);
-           
-            
+
+
             foreach (string file in ExcludedFiles)
                 excludedFilesControl.ExcludedItems.Add(file);
             foreach (string folder in ExcludedFolders)
                 excludedFoldersControl.ExcludedItems.Add(folder);
 
-         
+
         }
 
-      
+
 
 
         private void Control_Changed(object sender, EventArgs e)
@@ -58,7 +58,7 @@ namespace FolderMonitor.UI
         }
 
 
-        protected  bool ApplyChanges()
+        protected bool ApplyChanges()
         {
             ExcludedFiles.Clear();
             foreach (string item in excludedFilesControl.ExcludedItems)
@@ -68,14 +68,14 @@ namespace FolderMonitor.UI
             foreach (string item in excludedFoldersControl.ExcludedItems)
                 ExcludedFolders.Add(item);
 
-          
+
 
             return true;
         }
 
         private void ExcludedItemsDialog_Load(object sender, EventArgs e)
         {
-           
+
 
         }
 

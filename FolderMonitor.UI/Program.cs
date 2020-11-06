@@ -1,8 +1,4 @@
-﻿using FolderMonitor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace FolderMonitor.UI
@@ -25,13 +21,13 @@ namespace FolderMonitor.UI
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             ShowUnhandledExceptionMessageBox(e.Exception);
-           // Application.Exit();
+            // Application.Exit();
         }
-        private static void ShowUnhandledExceptionMessageBox(Exception  e)
+        private static void ShowUnhandledExceptionMessageBox(Exception e)
         {
             try
             {
-                string msg =  e.InnerMessages ();
+                string msg = e.InnerMessages();
                 MessageBox.Show(msg, "FolderMonitor GUI", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch { }
