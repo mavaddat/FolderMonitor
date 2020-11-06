@@ -7,12 +7,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace FolderMonitor
 {
-    [Serializable ]
-    public class PathCredentials:ICloneable
+    [Serializable]
+    public class PathCredentials : ICloneable
     {
         [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
         [ResourceExposure(ResourceScope.None)]
@@ -28,7 +27,7 @@ namespace FolderMonitor
         /// use this tool to make sure that path ends with no escap char or space
         /// </summary>
         /// <param name="WithLowercase"></param>
-        public  void TrimPath(bool WithLowercase=true )
+        public void TrimPath(bool WithLowercase = true)
         {
             if (string.IsNullOrWhiteSpace(Path)) return;
             if (WithLowercase)
@@ -39,10 +38,10 @@ namespace FolderMonitor
         public static bool operator ==(PathCredentials path1, PathCredentials path2)
         {
             // If left hand side is null...
-            if (ReferenceEquals(path1, null))
+            if (path1 is null)
             {
                 // ...and right hand side is null...
-                if (ReferenceEquals(path2, null))
+                if (path2 is null)
                 {
                     //...both are null and are Equal.
                     return true;
@@ -51,10 +50,10 @@ namespace FolderMonitor
                 // ...right hand side is not null, therefore not Equal.
                 return false;
             }
-            else if (ReferenceEquals(path2, null))
+            else if (path2 is null)
             {
                 // ...and left hand side is null...
-                if (ReferenceEquals(path1, null))
+                if (path1 is null)
                 {
                     //...both are null and are Equal.
                     return true;
@@ -74,17 +73,17 @@ namespace FolderMonitor
             return result;
         }
 
-     
+
         public static bool operator !=(PathCredentials path1, PathCredentials path2)
         {
-            var result= path1== path2;
+            var result = path1 == path2;
             return !result;
         }
         private string _pass = null;
         /// <summary>
         /// The full path of folder.
         /// </summary>
-         [Description("The full path of folder.")]
+        [Description("The full path of folder.")]
         public string Path { get; set; }
         /// <summary>
         /// Username used to gain access for this path
@@ -98,7 +97,9 @@ namespace FolderMonitor
         [Category("Security")]
         [Description("Password used to gain access for this path.")]
         [PasswordPropertyText(true)]
-        public string Password { get
+        public string Password
+        {
+            get
             {
                 return _pass;
             }
@@ -125,12 +126,14 @@ namespace FolderMonitor
             }
         }
 
-        public string UNC_IPC { get
+        public string UNC_IPC
+        {
+            get
             {
-                return  @"\\" + System.IO.Path.Combine(GetHostNameOfUNCPath(), "IPC$");
+                return @"\\" + System.IO.Path.Combine(GetHostNameOfUNCPath(), "IPC$");
             }
         }
-        public  void ConnectToUNC(bool throwException)
+        public void ConnectToUNC(bool throwException)
         {
             try
             {
@@ -145,23 +148,23 @@ namespace FolderMonitor
             catch (Exception er)
             {
                 if (throwException)
-                    throw new Exception (er.InnerMessages ()+Environment.NewLine + "*trying to connect to " + Path );
+                    throw new Exception(er.InnerMessages() + Environment.NewLine + "*trying to connect to " + Path);
             }
         }
 
-      
+
 
         public void DisconnectFromUNC()
         {
             try
             {
-                Host.DisconnectFrom(Path , true, false);
+                Host.DisconnectFrom(Path, true, false);
 
             }
             catch
             {
 
-                
+
             }
 
         }
@@ -173,14 +176,13 @@ namespace FolderMonitor
             if (IsPathHasUserName && IsUNC)
 
             {
-                bool exist = false;
                 Host.ConnectTo(Path, new System.Net.NetworkCredential(UserName, Password, Domain), false, false, false);
-                exist= Directory.Exists(Path);
+                bool exist = Directory.Exists(Path);
                 Host.DisconnectFrom(Path, true, false);
-                if(!exist)
-                    throw new Exception("Can't access to path:"+ Environment.NewLine + Path + Environment.NewLine + "*Note that, connect to above path using user '"+ UserName + "' was succeeded.");
+                if (!exist)
+                    throw new Exception("Can't access to path:" + Environment.NewLine + Path + Environment.NewLine + "*Note that, connect to above path using user '" + UserName + "' was succeeded.");
 
-                return exist; 
+                return exist;
             }
             else
                 return PathExists(true);
@@ -188,10 +190,10 @@ namespace FolderMonitor
 
         private string GetHostNameOfUNCPath()
         {
-            Uri uri = new Uri(Path );
-            string[] segs = uri.Segments; 
+            Uri uri = new Uri(Path);
+            _ = uri.Segments;
             return uri.Host;
-                
+
         }
 
         bool CanRunProcess()
@@ -234,23 +236,23 @@ namespace FolderMonitor
         {
             get
             {
-                if(IsUNC)
+                if (IsUNC)
                 {
                     if (Path.StartsWith(@"\\"))
                     {
                         Regex ip = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
                         MatchCollection result = ip.Matches(Path);
-                        if (result!=null && result.Count > 0)
+                        if (result != null && result.Count > 0)
                             return true;
                     }
                 }
                 return false;
-                
+
             }
         }
 
-        public List<string> ExcludedFiles { get;  set; }
-        public List<string> ExcludedFolders { get;  set; }
+        public List<string> ExcludedFiles { get; set; }
+        public List<string> ExcludedFolders { get; set; }
 
 
         public override string ToString()
@@ -258,11 +260,11 @@ namespace FolderMonitor
             return Path;
         }
 
-        public bool PathExists(bool throwException=false )
+        public bool PathExists(bool throwException = false)
         {
             try
             {
-                
+
                 if (IsPathHasUserName & !IsUNC)
                 {
                     using (Tools.Impersonator i = new Tools.Impersonator(UserName, Domain, Password))
@@ -271,13 +273,11 @@ namespace FolderMonitor
                     }
                 }
                 else if (IsPathHasUserName & IsUNC)
-                  ConnectToUNC(throwException);
+                    ConnectToUNC(throwException);
                 return Directory.Exists(Path);
 
             }
-#pragma warning disable CS0168 // The variable 'er' is declared but never used
-            catch (Exception er)
-#pragma warning restore CS0168 // The variable 'er' is declared but never used
+            catch (Exception)
             {
                 if (throwException)
                     throw;
@@ -296,44 +296,54 @@ namespace FolderMonitor
                 }
             }
             else if (IsPathHasUserName & IsUNC)
-                ConnectToUNC(false );
+                ConnectToUNC(false);
             return Directory.GetFileSystemEntries(Path, searchPattern, searchOption);
         }
 
         public object Clone()
         {
-           return  MemberwiseClone();
+            return MemberwiseClone();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (PathCredentials)obj == this;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
-    [Serializable ]
-    public class PathFromAndTo:ICloneable
+    [Serializable]
+    public class PathFromAndTo : ICloneable
     {
-        public string  RoboCopy_Options { get; set; }
+        public string RoboCopy_Options { get; set; }
         public PathCredentials From { get; set; }
         public PathCredentials To { get; set; }
-        public string ExtendedAttributes { get;  set; }
-        public bool IsEnabled { get;  set; }
+        public string ExtendedAttributes { get; set; }
+        public bool IsEnabled { get; set; }
 
         public ScheduleTime ScheduleTask { get; set; }
         public PathFromAndTo()
         {
-            From = new PathCredentials ();
-            To = new PathCredentials ();
+            From = new PathCredentials();
+            To = new PathCredentials();
             IsEnabled = true;
         }
-        public PathFromAndTo(PathCredentials from,PathCredentials to)
+        public PathFromAndTo(PathCredentials from, PathCredentials to)
         {
             From = from;
             To = to;
             IsEnabled = true;
         }
-    public   string GetSchdulerAsText()
+        public string GetSchdulerAsText()
         {
             if (ScheduleTask == null || !ScheduleTask.IsEnabled) return "";
-            var result ="Starts "+ Enum.GetName(typeof(TriggerType), ScheduleTask.Triggertype) + " At " + ScheduleTask.StartTime.ToString("hh:mm tt");
-            if(ScheduleTask.EndTime.HasValue)
+            var result = "Starts " + Enum.GetName(typeof(TriggerType), ScheduleTask.Triggertype) + " At " + ScheduleTask.StartTime.ToString("hh:mm tt");
+            if (ScheduleTask.EndTime.HasValue)
             {
-                result +=" and ends on "+ Enum.GetName(typeof(EndOnType), ScheduleTask.EndTime_Type) + " At " + ScheduleTask.EndTime.Value .ToString("hh:mm tt");
+                result += " and ends on " + Enum.GetName(typeof(EndOnType), ScheduleTask.EndTime_Type) + " At " + ScheduleTask.EndTime.Value.ToString("hh:mm tt");
 
             }
             return result;
@@ -341,21 +351,23 @@ namespace FolderMonitor
 
         public override string ToString()
         {
-            var r= string.Format("{1}|{2}|{3}|{4};{5}|{6}|{7}|{8}", "<string>", From.Path, From.UserName, From.Password.Encrypts (), From.Domain, To.Path, To.UserName, To.Password.Encrypts (), To.Domain, "</string>");
+            var r = string.Format("{1}|{2}|{3}|{4};{5}|{6}|{7}|{8}", "<string>", From.Path, From.UserName, From.Password.Encrypts(), From.Domain, To.Path, To.UserName, To.Password.Encrypts(), To.Domain, "</string>");
             return r;
         }
-        public  string ToString(bool WithXmlNode)
+        public string ToString(bool WithXmlNode)
         {
-            var r = string.Format("{0}{1}|{2}|{3}|{4};{5}|{6}|{7}|{8}{9}", "<string>", From.Path, From.UserName, From.Password.Encrypts (), From.Domain, To.Path, To.UserName, To.Password.Encrypts (), To.Domain, "</string>");
+            var r = string.Format("{0}{1}|{2}|{3}|{4};{5}|{6}|{7}|{8}{9}", "<string>", From.Path, From.UserName, From.Password.Encrypts(), From.Domain, To.Path, To.UserName, To.Password.Encrypts(), To.Domain, "</string>");
             return r;
         }
 
         public object Clone()
         {
-            var cc = new PathFromAndTo();
-            cc.From =(PathCredentials ) From.Clone();
-            cc.To =(PathCredentials) To.Clone();
-           if(ScheduleTask!=null ) cc.ScheduleTask =(ScheduleTime) ScheduleTask.Clone();
+            var cc = new PathFromAndTo
+            {
+                From = (PathCredentials)From.Clone(),
+                To = (PathCredentials)To.Clone()
+            };
+            if (ScheduleTask != null) cc.ScheduleTask = (ScheduleTime)ScheduleTask.Clone();
             cc.RoboCopy_Options = RoboCopy_Options;
             cc.ExtendedAttributes = ExtendedAttributes;
             cc.IsEnabled = IsEnabled;
@@ -391,20 +403,20 @@ namespace FolderMonitor
             return MemberwiseClone();
         }
 
-       
+
     }
     public enum TriggerType
     {
-        Daily=0,
-        Weekly=1,
-        Monthly=2
+        Daily = 0,
+        Weekly = 1,
+        Monthly = 2
     }
     public enum EndOnType
     {
         SameStartTime = 0,
         NextDay = 1,
         After_2_days = 2,
-        After_3_days = 3,       
+        After_3_days = 3,
         After_5_days = 4,
         After_7_days = 5
     }

@@ -13,9 +13,8 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
+using System.Drawing.Text;
 
 namespace Office2007Renderer
 {
@@ -25,8 +24,8 @@ namespace Office2007Renderer
     public class UseAntiAlias : IDisposable
     {
         #region Instance Fields
-        private Graphics _g;
-        private SmoothingMode _old;
+        private readonly Graphics _g;
+        private readonly SmoothingMode _old;
         #endregion
 
         #region Identity
@@ -57,8 +56,8 @@ namespace Office2007Renderer
     public class UseClearTypeGridFit : IDisposable
     {
         #region Instance Fields
-        private Graphics _g;
-        private TextRenderingHint _old;
+        private readonly Graphics _g;
+        private readonly TextRenderingHint _old;
         #endregion
 
         #region Identity
@@ -90,8 +89,8 @@ namespace Office2007Renderer
     public class UseClipping : IDisposable
     {
         #region Instance Fields
-        private Graphics _g;
-        private Region _old;
+        private readonly Graphics _g;
+        private readonly Region _old;
         #endregion
 
         #region Identity

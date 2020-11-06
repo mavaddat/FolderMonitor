@@ -44,6 +44,7 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,7 +102,6 @@
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip2.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -270,6 +270,10 @@
             this.columnHeader4.Text = "Active Task";
             this.columnHeader4.Width = 90;
             // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Schedule";
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -359,26 +363,26 @@
             // copySourceCredentialsToolStripMenuItem
             // 
             this.copySourceCredentialsToolStripMenuItem.Name = "copySourceCredentialsToolStripMenuItem";
-            this.copySourceCredentialsToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.copySourceCredentialsToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
             this.copySourceCredentialsToolStripMenuItem.Text = "Copy Source Credentials";
             this.copySourceCredentialsToolStripMenuItem.Click += new System.EventHandler(this.copySourceCredentialsToolStripMenuItem_Click);
             // 
             // copyTargetCredentialsToolStripMenuItem
             // 
             this.copyTargetCredentialsToolStripMenuItem.Name = "copyTargetCredentialsToolStripMenuItem";
-            this.copyTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.copyTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
             this.copyTargetCredentialsToolStripMenuItem.Text = "Copy Target Credentials";
             this.copyTargetCredentialsToolStripMenuItem.Click += new System.EventHandler(this.copyTargetCredentialsToolStripMenuItem_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(259, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(258, 6);
             // 
             // copySourceAndTargetCredentialsToolStripMenuItem
             // 
             this.copySourceAndTargetCredentialsToolStripMenuItem.Name = "copySourceAndTargetCredentialsToolStripMenuItem";
-            this.copySourceAndTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.copySourceAndTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
             this.copySourceAndTargetCredentialsToolStripMenuItem.Text = "Copy Source and Target Credentials";
             this.copySourceAndTargetCredentialsToolStripMenuItem.Click += new System.EventHandler(this.copySourceAndTargetCredentialsToolStripMenuItem_Click);
             // 
@@ -397,7 +401,7 @@
             // pasteSourceCredentialsToolStripMenuItem
             // 
             this.pasteSourceCredentialsToolStripMenuItem.Name = "pasteSourceCredentialsToolStripMenuItem";
-            this.pasteSourceCredentialsToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.pasteSourceCredentialsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.pasteSourceCredentialsToolStripMenuItem.Tag = "src";
             this.pasteSourceCredentialsToolStripMenuItem.Text = "Paste To Source Credentials";
             this.pasteSourceCredentialsToolStripMenuItem.Click += new System.EventHandler(this.pasteSourceCredentialsToolStripMenuItem_Click);
@@ -405,7 +409,7 @@
             // pasteTargetCredentialsToolStripMenuItem
             // 
             this.pasteTargetCredentialsToolStripMenuItem.Name = "pasteTargetCredentialsToolStripMenuItem";
-            this.pasteTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.pasteTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.pasteTargetCredentialsToolStripMenuItem.Tag = "trg";
             this.pasteTargetCredentialsToolStripMenuItem.Text = "Paste To Target Credentials";
             this.pasteTargetCredentialsToolStripMenuItem.Click += new System.EventHandler(this.pasteSourceCredentialsToolStripMenuItem_Click);
@@ -413,12 +417,12 @@
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(275, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(273, 6);
             // 
             // pasteSourceAndTargetCredentialsToolStripMenuItem
             // 
             this.pasteSourceAndTargetCredentialsToolStripMenuItem.Name = "pasteSourceAndTargetCredentialsToolStripMenuItem";
-            this.pasteSourceAndTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.pasteSourceAndTargetCredentialsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.pasteSourceAndTargetCredentialsToolStripMenuItem.Tag = "both";
             this.pasteSourceAndTargetCredentialsToolStripMenuItem.Text = "Paste To Source and Target Credentials";
             this.pasteSourceAndTargetCredentialsToolStripMenuItem.Click += new System.EventHandler(this.pasteSourceCredentialsToolStripMenuItem_Click);
@@ -663,7 +667,7 @@
             this.addButton.Image = global::FolderMonitor.UI.Properties.Resources.data_copy_add;
             this.addButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(67, 35);
+            this.addButton.Size = new System.Drawing.Size(66, 35);
             this.addButton.Text = "New Task..";
             this.addButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.addButton.ToolTipText = "Add a new mirror task.";
@@ -775,7 +779,7 @@
             this.toolStripButton8.Image = global::FolderMonitor.UI.Properties.Resources.close;
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(51, 35);
+            this.toolStripButton8.Size = new System.Drawing.Size(52, 35);
             this.toolStripButton8.Text = "Exit GUI";
             this.toolStripButton8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton8.ToolTipText = "Exit from Folder Monitor GUI";
@@ -798,10 +802,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 1003;
             this.pictureBox1.TabStop = false;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Schedule";
             // 
             // MainForm
             // 

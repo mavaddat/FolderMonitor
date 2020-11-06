@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Windows.Forms;
 
 namespace FolderMonitor.UI
 {
     public partial class ConfigService : Form
     {
-        private ServiceManager _service;
-        ServiceStartMode startmode ;
-        string accountname = null;
+        private readonly ServiceManager _service;
+        readonly ServiceStartMode startmode;
+        readonly string accountname = null;
         public ConfigService(ServiceManager service)
         {
             InitializeComponent();
@@ -31,11 +25,11 @@ namespace FolderMonitor.UI
             drpStartupmode.Items.Add("Disable");//4
 
 
-            textBox1.Text = service.ServiceName ;
-            textBox2.Text = service.ImagePath ;
+            textBox1.Text = service.ServiceName;
+            textBox2.Text = service.ImagePath;
 
-            startmode= service.StartMode; 
-              accountname =service.GetAccountName();
+            startmode = service.StartMode;
+            accountname = service.GetAccountName();
 
             switch (startmode)
             {
@@ -61,7 +55,7 @@ namespace FolderMonitor.UI
             else
             {
                 drpAccount.SelectedIndex = 3;
-               txtusername.Text = accountname;
+                txtusername.Text = accountname;
                 txtpass.Text = "password";
             }
 
@@ -70,7 +64,7 @@ namespace FolderMonitor.UI
 
         private void ConfigService_Load(object sender, EventArgs e)
         {
-            accountChanged = 
+            accountChanged =
             startupChanged = false;
 
 
@@ -88,7 +82,7 @@ namespace FolderMonitor.UI
             {
                 if (accountChanged)
                 {
-                    
+
                     if (drpAccount.SelectedIndex == 3 && (string.IsNullOrWhiteSpace(txtusername.Text) || string.IsNullOrWhiteSpace(txtpass.Text)))
                     {
                         txtusername.Focus();
@@ -122,10 +116,10 @@ namespace FolderMonitor.UI
 
         }
 
-        void   SetUserAccount(string username,string password)
+        void SetUserAccount(string username, string password)
         {
-            
-            var cmd =string.Format ( "config {0} " ,ServiceManager._FolderMonitorServiceName);
+
+            var cmd = string.Format("config {0} ", ServiceManager._FolderMonitorServiceName);
             if (txtusername.Enabled)
             {
                 cmd += "obj= " + username + " ";
@@ -134,11 +128,11 @@ namespace FolderMonitor.UI
                 i.Dispose();
             }
             else
-                cmd += "obj= " + drpAccount.Text.Trim().Replace (" ","") ;
+                cmd += "obj= " + drpAccount.Text.Trim().Replace(" ", "");
             var process = new Process();
-          //  process.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            //  process.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
             process.StartInfo.UseShellExecute = false;
-           // process.StartInfo.LoadUserProfile = true;
+            // process.StartInfo.LoadUserProfile = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -150,8 +144,8 @@ namespace FolderMonitor.UI
             //process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => { sc_error = e.Data; };
 
 
-           
-            process.Start(); 
+
+            process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit(2000);
@@ -162,11 +156,11 @@ namespace FolderMonitor.UI
             //return sc_data;
         }
 
-      
+
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-           txtusername.Enabled = txtpass.Enabled  = drpAccount.SelectedIndex == 3;
+            txtusername.Enabled = txtpass.Enabled = drpAccount.SelectedIndex == 3;
             txtusername.Text = "";
             accountChanged = true;
         }

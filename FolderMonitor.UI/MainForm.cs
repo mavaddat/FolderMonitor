@@ -34,7 +34,7 @@ namespace FolderMonitor.UI
             }
         }
         bool __savestate = true;
-        bool _restart_service_req = false ;
+        bool _restart_service_req = false;
         static ServiceManager _service = null;
 
 
@@ -61,30 +61,30 @@ namespace FolderMonitor.UI
             try
             {
 
-                    
-            Cursor = Cursors.WaitCursor;
-            if (listView1.SelectedIndices.Count > 0)
-            {
-                propertyGrid1.SelectedObject = ((PathFromAndTo)listView1.SelectedItems[0].Tag).From;
-                propertyGrid2.SelectedObject = ((PathFromAndTo)listView1.SelectedItems[0].Tag).To;
+
+                Cursor = Cursors.WaitCursor;
+                if (listView1.SelectedIndices.Count > 0)
+                {
+                    propertyGrid1.SelectedObject = ((PathFromAndTo)listView1.SelectedItems[0].Tag).From;
+                    propertyGrid2.SelectedObject = ((PathFromAndTo)listView1.SelectedItems[0].Tag).To;
 
 
-                var tag = (PathFromAndTo)listView1.SelectedItems[0].Tag;
-                var log = Path.GetDirectoryName(FolderMonitorServicePath);
-                var foldername = tag.From.Path.GetFolderName();
-                log = Path.Combine(log, foldername + ".log");
-                
-                txtlogs.Text = ReadFileAsString(log);
-                txtlogs.Tag = log;
+                    var tag = (PathFromAndTo)listView1.SelectedItems[0].Tag;
+                    var log = Path.GetDirectoryName(FolderMonitorServicePath);
+                    var foldername = tag.From.Path.GetFolderName();
+                    log = Path.Combine(log, foldername + ".log");
 
-            }
-            else
-            {
+                    txtlogs.Text = ReadFileAsString(log);
+                    txtlogs.Tag = log;
 
-                var log = Path.Combine(Path.GetDirectoryName(FolderMonitorServicePath), ServiceConfig.FolderMonitorLogFilename);
-                txtlogs.Text = ReadFileAsString(log);
-                txtlogs.Tag = log;
-            }
+                }
+                else
+                {
+
+                    var log = Path.Combine(Path.GetDirectoryName(FolderMonitorServicePath), ServiceConfig.FolderMonitorLogFilename);
+                    txtlogs.Text = ReadFileAsString(log);
+                    txtlogs.Tag = log;
+                }
             }
             finally
             {
@@ -98,7 +98,7 @@ namespace FolderMonitor.UI
 
             try
             {
-               // System.Threading.Thread.Sleep(3000);
+                // System.Threading.Thread.Sleep(3000);
                 linkLabel1.Text = fpath;
                 linkLabel1.Tag = fpath;
                 if (File.Exists(fpath))
@@ -222,7 +222,7 @@ namespace FolderMonitor.UI
             {
                 Cursor = Cursors.WaitCursor;
                 listView1.Items.Clear();
-                var ls = ServiceConfig.Default.GetAllTasks(false   );
+                var ls = ServiceConfig.Default.GetAllTasks(false);
                 Thread t = new Thread(() =>
                   {
                       foreach (var path in ls)
@@ -546,8 +546,10 @@ namespace FolderMonitor.UI
             if (listView1.SelectedIndices.Count == 0)
                 return;
             var paths = (PathFromAndTo)listView1.SelectedItems[0].Tag;
-            NewTask x = new NewTask(false);
-            x.MirrorTask = (PathFromAndTo)paths.Clone();
+            NewTask x = new NewTask(false)
+            {
+                MirrorTask = (PathFromAndTo)paths.Clone()
+            };
 
             if (x.ShowDialog() == DialogResult.OK)
             {
@@ -558,9 +560,9 @@ namespace FolderMonitor.UI
                 lvi.SubItems[4].Text = x.MirrorTask.To.Path;
 
                 if (x.MirrorTask.ScheduleTask == null || !x.MirrorTask.ScheduleTask.IsEnabled)
-                    lvi.SubItems[4].Text="";
+                    lvi.SubItems[4].Text = "";
                 else
-                    lvi.SubItems[4].Text=Enum.GetName(typeof(TriggerType), x.MirrorTask.ScheduleTask.Triggertype) + " At " + x.MirrorTask.ScheduleTask.StartTime.ToString("hh:mm tt");
+                    lvi.SubItems[4].Text = Enum.GetName(typeof(TriggerType), x.MirrorTask.ScheduleTask.Triggertype) + " At " + x.MirrorTask.ScheduleTask.StartTime.ToString("hh:mm tt");
 
 
                 lvi.Tag = (PathFromAndTo)x.MirrorTask.Clone();
@@ -570,7 +572,7 @@ namespace FolderMonitor.UI
                     lvi.ImageIndex = x.MirrorTask.From.IsPathHasUserName || x.MirrorTask.To.IsPathHasUserName ? 3 : 0;
 
                 _savestate = false;
-                _restart_service_req = x.MirrorTask.From != paths.From || x.MirrorTask.To  != paths.To ;
+                _restart_service_req = x.MirrorTask.From != paths.From || x.MirrorTask.To != paths.To;
             }
         }
 
@@ -768,7 +770,7 @@ namespace FolderMonitor.UI
                 else
                 {
                     item.ToolTipText += trg + "this task has an issue.";
-                    if (item.ImageIndex !=1) item.ImageIndex = 4;
+                    if (item.ImageIndex != 1) item.ImageIndex = 4;
                 }
             }
             catch (Exception er)
@@ -781,7 +783,7 @@ namespace FolderMonitor.UI
                 if (item.SubItems.Count <= 2) item.SubItems.Add("");
                 item.SubItems[2].Text = item.ToolTipText;
                 item.ListView.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (item.ImageIndex ==1)
+                if (item.ImageIndex == 1)
                     item.ForeColor = System.Drawing.Color.Red;
                 else
                     item.ForeColor = System.Drawing.Color.Black;
@@ -810,9 +812,7 @@ namespace FolderMonitor.UI
                 MessageBox.Show("The log file is not exist yet!" + Environment.NewLine + log, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-
-
-        string _copyformat = System.Windows.Forms.DataFormats.Serializable;
+        readonly string _copyformat = System.Windows.Forms.DataFormats.Serializable;
 
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
@@ -840,8 +840,10 @@ namespace FolderMonitor.UI
         {
             if (listView1.SelectedItems.Count < 1) return;
             var item = listView1.SelectedItems[0];
-            NewTask x = new NewTask(true);
-            x.MirrorTask = (PathFromAndTo)((PathFromAndTo)item.Tag).Clone();
+            NewTask x = new NewTask(true)
+            {
+                MirrorTask = (PathFromAndTo)((PathFromAndTo)item.Tag).Clone()
+            };
 
             if (x.ShowDialog() == DialogResult.OK)
             {
@@ -879,8 +881,8 @@ namespace FolderMonitor.UI
             {
                 lvi.ForeColor = System.Drawing.Color.Gray;
                 lvi.Font = new System.Drawing.Font(lvi.Font, System.Drawing.FontStyle.Strikeout);
-                lvi.SubItems[3].Text ="No";
-                lvi.SubItems[3].BackColor = System.Drawing.Color.LightGray ;
+                lvi.SubItems[3].Text = "No";
+                lvi.SubItems[3].BackColor = System.Drawing.Color.LightGray;
                 lvi.ToolTipText = "This Task is not active.";
                 lvi.ImageIndex = 5;
 
@@ -889,7 +891,7 @@ namespace FolderMonitor.UI
             {
                 // lvi.ForeColor = System.Drawing.Color.Black ;
                 // lvi.Font = new System.Drawing.Font(lvi.Font, System.Drawing.FontStyle.Regular);
-                lvi.SubItems[3].Text ="Yes";
+                lvi.SubItems[3].Text = "Yes";
                 lvi.SubItems[3].BackColor = System.Drawing.Color.White;
             }
 
@@ -909,7 +911,7 @@ namespace FolderMonitor.UI
             if (listView1.SelectedItems.Count < 1) return;
             var item = (PathFromAndTo)listView1.SelectedItems[0].Tag;
             if (item == null) return;
-            var dir = "";
+            string dir;
             if (((ToolStripMenuItem)sender).Tag + "" == "tgt") // target folder case            
                 dir = item.To.Path;
             else

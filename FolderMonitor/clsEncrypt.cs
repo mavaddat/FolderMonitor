@@ -1,13 +1,12 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Security.Cryptography;
 
 namespace FolderMonitor
 {
     public class Encryption
     {
-        private static string _pass = "my_encr!@#123987";
+        private static readonly string _pass = "my_encr!@#123987";
         /// <summary>
         /// Encrypt a string into a string using the default password
         /// </summary>

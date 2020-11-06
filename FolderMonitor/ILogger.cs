@@ -37,6 +37,6 @@ namespace FolderMonitor
         void OnSyncRenamed(object source, string oldpath, string newpath);
 
         void OnErrorOccure(object source, Exception exception);
-    }        
+    }
 
 }

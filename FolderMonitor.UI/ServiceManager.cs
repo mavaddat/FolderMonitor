@@ -3,11 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
-using System.Text;
 
 namespace FolderMonitor.UI
 {
@@ -18,13 +16,13 @@ namespace FolderMonitor.UI
         #region Private : Fields
 
 #pragma warning disable CS0169 // The field 'ServiceManager.m_bExists' is never used
-        private bool m_bExists;
+        private readonly bool m_bExists;
 #pragma warning restore CS0169 // The field 'ServiceManager.m_bExists' is never used
 #pragma warning disable CS0169 // The field 'ServiceManager.m_bExistsAvailable' is never used
-        private bool m_bExistsAvailable;
+        private readonly bool m_bExistsAvailable;
 #pragma warning restore CS0169 // The field 'ServiceManager.m_bExistsAvailable' is never used
 #pragma warning disable CS0169 // The field 'ServiceManager.m_sRemoteResource' is never used
-        private string m_sRemoteResource;
+        private readonly string m_sRemoteResource;
 #pragma warning restore CS0169 // The field 'ServiceManager.m_sRemoteResource' is never used
         private ServiceStartMode m_eStartMode;
         private bool m_bStartModeAvailable;
@@ -140,20 +138,22 @@ namespace FolderMonitor.UI
         {
         }
 
-        public bool ServiceInstalled { get
+        public bool ServiceInstalled
+        {
+            get
             {
                 try
                 {
                     Refresh();
-                    var ss=Status;
+                    var ss = Status;
                     return true;
                 }
                 catch
                 {
                     return false;
-                    
+
                 }
-                
+
             }
         }
         public string ImagePath
@@ -278,9 +278,9 @@ namespace FolderMonitor.UI
         }
 
 
-        private void SetAccount(string username,string password)
+        private void SetAccount(string username, string password)
         {
-          
+
 
             CheckControlPermission();
 
@@ -291,22 +291,22 @@ namespace FolderMonitor.UI
                 if (!WindowsServicesHelper.ChangeServiceConfig(
                     oServiceHandle,
                     WindowsServicesHelper.SERVICE_NO_CHANGE, WindowsServicesHelper.SERVICE_NO_CHANGE,
-                    
+
                     WindowsServicesHelper.SERVICE_NO_CHANGE,
                     null,
                     null,
                     IntPtr.Zero,
                     null,
-                    username ,
-                    password ,
+                    username,
+                    password,
                     null
                 ))
                 {
                     throw CreateSafeWin32Exception();
                 }
 
-                
-                
+
+
             }
             finally
             {
@@ -359,8 +359,8 @@ namespace FolderMonitor.UI
             RegistryKey keyHKLM = Registry.LocalMachine;
 
             RegistryKey key;
-            
-                key = keyHKLM.OpenSubKey(registryPath);
+
+            key = keyHKLM.OpenSubKey(registryPath);
 
 
             string value = key.GetValue("ImagePath") + "";
@@ -370,7 +370,7 @@ namespace FolderMonitor.UI
         }
 
 
-        public  string GetAccountName()
+        public string GetAccountName()
         {
             string registryPath = @"SYSTEM\CurrentControlSet\Services\" + _FolderMonitorServiceName;
             RegistryKey keyHKLM = Registry.LocalMachine;
@@ -385,27 +385,27 @@ namespace FolderMonitor.UI
             return ExpandEnvironmentVariables(value);
             //return value;
         }
-        public void  SetAccountName(string AccountName)
+        public void SetAccountName(string AccountName)
         {
             string registryPath = @"SYSTEM\CurrentControlSet\Services\" + _FolderMonitorServiceName;
             RegistryKey keyHKLM = Registry.LocalMachine;
 
             RegistryKey key;
 
-            key = keyHKLM.OpenSubKey(registryPath,true );
+            key = keyHKLM.OpenSubKey(registryPath, true);
 
 
-             key.SetValue ("ObjectName", AccountName) ;
+            key.SetValue("ObjectName", AccountName);
             key.Close();
             //return value;
         }
 
         private string ExpandEnvironmentVariables(string path)
         {
-            
-                return Environment.ExpandEnvironmentVariables(path);
-           
-            
+
+            return Environment.ExpandEnvironmentVariables(path);
+
+
         }
 
         private static ServiceController[] GetServices

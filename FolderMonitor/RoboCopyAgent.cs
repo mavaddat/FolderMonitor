@@ -5,11 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace FolderMonitor
 {
-    class RoboCopyAgent:IDisposable
+    class RoboCopyAgent : IDisposable
     {
         public RoboCopyAgent(PathFromAndTo task)
         {
@@ -32,14 +31,14 @@ namespace FolderMonitor
             {
                 switches.Append(" /xf");
                 foreach (string file in task.From.ExcludedFiles)
-                    switches.AppendPathOrWildcard( task.From.Path, file);
+                    switches.AppendPathOrWildcard(task.From.Path, file);
             }
 
             if (task.From.ExcludedFolders.Count > 0)
             {
                 switches.Append(" /xd");
                 foreach (string folder in task.From.ExcludedFolders)
-                    switches. AppendPathOrWildcard( task.From.Path, folder);
+                    switches.AppendPathOrWildcard(task.From.Path, folder);
             }
 
             if (!string.IsNullOrEmpty(task.ExtendedAttributes))
@@ -60,7 +59,7 @@ namespace FolderMonitor
 
         }
         public Process process { get; set; }
-      //  private Task backupTask;
+        //  private Task backupTask;
 
         /// <summary>
         /// Path to listen for changes
@@ -82,7 +81,7 @@ namespace FolderMonitor
         public event ErrorHandler ErrorOccured;
         public event DataReceivedEventHandler DataReceivedOccured;
         private Timer timer1;
-        long TIME_INTERVAL_IN_MILLISECONDS = 10 * 1000;
+        readonly long TIME_INTERVAL_IN_MILLISECONDS = 10 * 1000;
         public void Start()
         {
 
@@ -92,9 +91,9 @@ namespace FolderMonitor
                 TimerCallback tmrCallBack = new TimerCallback(timer1_Tick);
                 timer1 = new Timer(tmrCallBack);
                 // have the timer starts in 1 second
-                timer1.Change(1, Timeout.Infinite );
+                timer1.Change(1, Timeout.Infinite);
 
-                
+
 
             }
             catch (Exception er)
@@ -106,8 +105,8 @@ namespace FolderMonitor
         {
             try
             {
-                var task = ServiceConfig.Default.GetTask(fromPath.Path, toPath.Path );
-                if(task!=null)
+                var task = ServiceConfig.Default.GetTask(fromPath.Path, toPath.Path);
+                if (task != null)
                 {
                     if (!task.IsEnabled) //first check if task become disabled
                     {
@@ -120,7 +119,7 @@ namespace FolderMonitor
                     toPath = task.To;
                     Schduletask = task.ScheduleTask;
 
-                  
+
                 }
                 bool CanRunNow = false, MustStop = false;
                 if (Schduletask == null || !Schduletask.IsEnabled)
@@ -136,13 +135,13 @@ namespace FolderMonitor
                         switch (Schduletask.EndTime_Type)
                         {
                             case EndOnType.SameStartTime:
-                                if(!LastRunOn.HasValue && Schduletask.EndTime.Value.TimeOfDay <= DateTime.Now.TimeOfDay) //didn't run yet
+                                if (!LastRunOn.HasValue && Schduletask.EndTime.Value.TimeOfDay <= DateTime.Now.TimeOfDay) //didn't run yet
                                     MustStop = true;
-                                else  if (LastRunOn.HasValue && DateTime.Now.Date >= LastRunOn.Value.Date && Schduletask.EndTime.Value.TimeOfDay <= DateTime.Now.TimeOfDay)
+                                else if (LastRunOn.HasValue && DateTime.Now.Date >= LastRunOn.Value.Date && Schduletask.EndTime.Value.TimeOfDay <= DateTime.Now.TimeOfDay)
                                     MustStop = true;
                                 break;
                             case EndOnType.NextDay:
-                                if (!LastRunOn.HasValue && DateTime.Now.Date >= Schduletask.EndTime.Value.Date .AddDays(1) && Schduletask.EndTime.Value.TimeOfDay <= DateTime.Now.TimeOfDay) //didn't run yet
+                                if (!LastRunOn.HasValue && DateTime.Now.Date >= Schduletask.EndTime.Value.Date.AddDays(1) && Schduletask.EndTime.Value.TimeOfDay <= DateTime.Now.TimeOfDay) //didn't run yet
                                     MustStop = true;
                                 else
                                if (LastRunOn.HasValue && DateTime.Now.Date >= LastRunOn.Value.Date.AddDays(1) && Schduletask.EndTime.Value.TimeOfDay <= DateTime.Now.TimeOfDay)
@@ -211,7 +210,7 @@ namespace FolderMonitor
                             break;
                     }
 
-                  
+
 
 
                 }
@@ -228,7 +227,7 @@ namespace FolderMonitor
             finally
             {
                 // have the timer starts in 1 second, and then fire once every min
-                timer1.Change(TIME_INTERVAL_IN_MILLISECONDS, Timeout.Infinite );
+                timer1.Change(TIME_INTERVAL_IN_MILLISECONDS, Timeout.Infinite);
             }
         }
 
@@ -273,7 +272,7 @@ namespace FolderMonitor
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
                 process.WaitForExit();
-               IsRunning = process.ExitCode == 0;
+                IsRunning = process.ExitCode == 0;
             }
             catch (Exception er)
             {
@@ -292,7 +291,7 @@ namespace FolderMonitor
         private void process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(e.Data)) return;
-            ErrorOccured?.Invoke(sender,new Exception ( e.Data));
+            ErrorOccured?.Invoke(sender, new Exception(e.Data));
             // throw new NotImplementedException();
         }
 
@@ -318,16 +317,15 @@ namespace FolderMonitor
 
         private string GenerateParameters()
         {
-            //robocopy \\SourceServer\Share \\DestinationServer\Share /MIR /FFT /Z /W:5
-            var parms = " ";
             var LogPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string lastFolderName = Path.GetFileName(Path.GetDirectoryName(fromPath.Path));
             //string DC = "";// "\"";
             LogPath += "\\" + lastFolderName + ".log";
-            
-            
-             parms = string.Format("{0} {1} {2}", fromPath.Path.QuoteForRobocopy (),
-                toPath.Path.QuoteForRobocopy(), RoboOptions + @" /LOG:" + LogPath);
+
+
+            //robocopy \\SourceServer\Share \\DestinationServer\Share /MIR /FFT /Z /W:5
+            string parms = string.Format("{0} {1} {2}", fromPath.Path.QuoteForRobocopy(),
+   toPath.Path.QuoteForRobocopy(), RoboOptions + @" /LOG:" + LogPath);
 
             return parms;
         }
@@ -357,7 +355,7 @@ namespace FolderMonitor
             }
             finally
             {
-               // IsRunning = false;
+                // IsRunning = false;
             }
         }
 
@@ -365,8 +363,8 @@ namespace FolderMonitor
         {
             try
             {
-                
-                
+
+
                 timer1.Change(Timeout.Infinite, Timeout.Infinite);
                 timer1.Dispose();
                 timer1 = null;
@@ -384,7 +382,7 @@ namespace FolderMonitor
                 if (ErrorOccured != null)
                     ErrorOccured = null;
             }
-            catch(Exception er)
+            catch (Exception)
             {
             }
 

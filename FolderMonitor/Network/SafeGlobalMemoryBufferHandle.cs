@@ -25,54 +25,54 @@ using System.Text;
 
 namespace FolderMonitor.Win32
 {
-   /// <summary>Represents a block of native memory of a specified size allocated using the LocalAlloc function from Kernel32.dll.</summary>
-   internal sealed class SafeGlobalMemoryBufferHandle : SafeNativeMemoryBufferHandle
-   {
-      /// <summary>Creates new instance with zero IntPtr.</summary>
-      public SafeGlobalMemoryBufferHandle()
-         : base(true)
-      {
-      }
+    /// <summary>Represents a block of native memory of a specified size allocated using the LocalAlloc function from Kernel32.dll.</summary>
+    internal sealed class SafeGlobalMemoryBufferHandle : SafeNativeMemoryBufferHandle
+    {
+        /// <summary>Creates new instance with zero IntPtr.</summary>
+        public SafeGlobalMemoryBufferHandle()
+           : base(true)
+        {
+        }
 
-      /// <summary>Initializes a new instance of the <see cref="SafeGlobalMemoryBufferHandle"/> class allocating the specified number of bytes of unmanaged memory.</summary>
-      /// <param name="capacity">The capacity.</param>
-      public SafeGlobalMemoryBufferHandle(int capacity) :
-         base(capacity)
-      {
-         SetHandle(Marshal.AllocHGlobal(capacity));
-      }
+        /// <summary>Initializes a new instance of the <see cref="SafeGlobalMemoryBufferHandle"/> class allocating the specified number of bytes of unmanaged memory.</summary>
+        /// <param name="capacity">The capacity.</param>
+        public SafeGlobalMemoryBufferHandle(int capacity) :
+           base(capacity)
+        {
+            SetHandle(Marshal.AllocHGlobal(capacity));
+        }
 
-      private SafeGlobalMemoryBufferHandle(IntPtr buffer, int capacity)
-         : base(buffer, capacity)
-      {
-      }
+        private SafeGlobalMemoryBufferHandle(IntPtr buffer, int capacity)
+           : base(buffer, capacity)
+        {
+        }
 
-      [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-      public static SafeGlobalMemoryBufferHandle FromLong(long? value)
-      {
-         if (value.HasValue)
-         {
-            var safeBuffer = new SafeGlobalMemoryBufferHandle(Marshal.SizeOf(typeof (long)));
-            Marshal.WriteInt64(safeBuffer.handle, value.Value);
-            return safeBuffer;
-         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        public static SafeGlobalMemoryBufferHandle FromLong(long? value)
+        {
+            if (value.HasValue)
+            {
+                var safeBuffer = new SafeGlobalMemoryBufferHandle(Marshal.SizeOf(typeof(long)));
+                Marshal.WriteInt64(safeBuffer.handle, value.Value);
+                return safeBuffer;
+            }
 
-         return new SafeGlobalMemoryBufferHandle();
-      }
+            return new SafeGlobalMemoryBufferHandle();
+        }
 
-      public static SafeGlobalMemoryBufferHandle FromStringUni(string str)
-      {
-         if (str == null)
-            throw new ArgumentNullException("str");
+        public static SafeGlobalMemoryBufferHandle FromStringUni(string str)
+        {
+            if (str == null)
+                throw new ArgumentNullException("str");
 
-         return new SafeGlobalMemoryBufferHandle(Marshal.StringToHGlobalUni(str), str.Length*UnicodeEncoding.CharSize + UnicodeEncoding.CharSize);
-      }
+            return new SafeGlobalMemoryBufferHandle(Marshal.StringToHGlobalUni(str), str.Length * UnicodeEncoding.CharSize + UnicodeEncoding.CharSize);
+        }
 
-      /// <summary>Called when object is disposed or finalized.</summary>
-      protected override bool ReleaseHandle()
-      {
-         Marshal.FreeHGlobal(handle);
-         return true;
-      }
-   }
+        /// <summary>Called when object is disposed or finalized.</summary>
+        protected override bool ReleaseHandle()
+        {
+            Marshal.FreeHGlobal(handle);
+            return true;
+        }
+    }
 }
